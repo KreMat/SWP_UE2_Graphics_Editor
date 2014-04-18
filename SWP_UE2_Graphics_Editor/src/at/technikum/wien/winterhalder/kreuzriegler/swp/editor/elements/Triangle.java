@@ -143,6 +143,21 @@ public class Triangle extends AbstractGraphicalElement implements Colored,
 		return new Bounds(x, y, tempX - x, tempY - y);
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Triangle clone = (Triangle) super.clone();
+		if (clone.getP1() != null) {
+			clone.setP1(new Point(clone.getP1().getX(), clone.getP1().getY()));
+		}
+		if (clone.getP2() != null) {
+			clone.setP2(new Point(clone.getP2().getX(), clone.getP2().getY()));
+		}
+		if (clone.getP3() != null) {
+			clone.setP3(new Point(clone.getP3().getX(), clone.getP3().getY()));
+		}
+		return clone;
+	}
+
 	/**
 	 * @return the color
 	 */
