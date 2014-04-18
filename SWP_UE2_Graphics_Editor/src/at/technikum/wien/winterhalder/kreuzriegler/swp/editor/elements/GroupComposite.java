@@ -11,11 +11,22 @@ import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IRender
 
 /**
  * @author richie
- *
+ * 
  */
-public class GroupComposite implements IGraphicalElement{
-	
+public class GroupComposite implements IGraphicalElement {
+
 	private List<IGraphicalElement> elements = new ArrayList<IGraphicalElement>();
+
+	@Override
+	public boolean isWithinSelection(double x, double y, double width,
+			double height) {
+		for (IGraphicalElement elem : elements) {
+			if (elem.isWithinSelection(x, y, width, height)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public void draw(IRenderer r) {
@@ -37,13 +48,13 @@ public class GroupComposite implements IGraphicalElement{
 			element.resize(fromX, fromY, toX, toY);
 		}
 	}
-	
-	public static GroupComposite fromElements(List<IGraphicalElement> elements){
+
+	public static GroupComposite fromElements(List<IGraphicalElement> elements) {
 		GroupComposite gc = new GroupComposite();
 		gc.getElements().addAll(elements);
 		return gc;
 	}
-	
+
 	/**
 	 * @return the elements
 	 */
@@ -52,9 +63,20 @@ public class GroupComposite implements IGraphicalElement{
 	}
 
 	/**
-	 * @param elements the elements to set
+	 * @param elements
+	 *            the elements to set
 	 */
 	public void setElements(List<IGraphicalElement> elements) {
 		this.elements = elements;
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		GroupComposite clone = (GroupComposite) super.clone();
+		for (IGraphicalElement elem : elements) {
+			clone.getElements().add((IGraphicalElement) elem.clone());
+		}
+		return clone;
+	}
+
 }
