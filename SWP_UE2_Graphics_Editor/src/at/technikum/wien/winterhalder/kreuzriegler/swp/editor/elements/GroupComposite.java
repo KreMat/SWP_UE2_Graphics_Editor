@@ -6,21 +6,20 @@ package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IGraphicalElement;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IRenderer;
 
 /**
  * @author richie
  * 
  */
-public class GroupComposite implements IGraphicalElement {
+public class GroupComposite extends AbstractGraphicalElement {
 
-	private List<IGraphicalElement> elements = new ArrayList<IGraphicalElement>();
+	private List<AbstractGraphicalElement> elements = new ArrayList<AbstractGraphicalElement>();
 
 	@Override
 	public boolean isWithinSelection(double x, double y, double width,
 			double height) {
-		for (IGraphicalElement elem : elements) {
+		for (AbstractGraphicalElement elem : elements) {
 			if (elem.isWithinSelection(x, y, width, height)) {
 				return true;
 			}
@@ -30,22 +29,21 @@ public class GroupComposite implements IGraphicalElement {
 
 	@Override
 	public void draw(IRenderer r) {
-		for (IGraphicalElement element : elements) {
+		for (AbstractGraphicalElement element : elements) {
 			element.draw(r);
 		}
 	}
 
 	@Override
 	public void move(double offsetX, double offsetY) {
-		for (IGraphicalElement element : elements) {
+		for (AbstractGraphicalElement element : elements) {
 			element.move(offsetX, offsetY);
 		}
 	}
 
 	@Override
 	public void drawBounds(IRenderer r) {
-		Bounds b = getBounds();
-		r.drawBounds(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+		r.drawBounds(getBounds());
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class GroupComposite implements IGraphicalElement {
 		double tempX = 0d;
 		double y = 0d;
 		double tempY = 0d;
-		for (IGraphicalElement elem : elements) {
+		for (AbstractGraphicalElement elem : elements) {
 			Bounds bounds = elem.getBounds();
 			if (x == 0 || x > bounds.getX()) {
 				x = bounds.getX();
@@ -74,12 +72,13 @@ public class GroupComposite implements IGraphicalElement {
 
 	@Override
 	public void resize(double fromX, double fromY, double toX, double toY) {
-		for (IGraphicalElement element : elements) {
+		for (AbstractGraphicalElement element : elements) {
 			element.resize(fromX, fromY, toX, toY);
 		}
 	}
 
-	public static GroupComposite fromElements(List<IGraphicalElement> elements) {
+	public static GroupComposite fromElements(
+			List<AbstractGraphicalElement> elements) {
 		GroupComposite gc = new GroupComposite();
 		gc.getElements().addAll(elements);
 		return gc;
@@ -88,7 +87,7 @@ public class GroupComposite implements IGraphicalElement {
 	/**
 	 * @return the elements
 	 */
-	public List<IGraphicalElement> getElements() {
+	public List<AbstractGraphicalElement> getElements() {
 		return elements;
 	}
 
@@ -96,15 +95,15 @@ public class GroupComposite implements IGraphicalElement {
 	 * @param elements
 	 *            the elements to set
 	 */
-	public void setElements(List<IGraphicalElement> elements) {
+	public void setElements(List<AbstractGraphicalElement> elements) {
 		this.elements = elements;
 	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		GroupComposite clone = (GroupComposite) super.clone();
-		for (IGraphicalElement elem : elements) {
-			clone.getElements().add((IGraphicalElement) elem.clone());
+		for (AbstractGraphicalElement elem : elements) {
+			clone.getElements().add((AbstractGraphicalElement) elem.clone());
 		}
 		return clone;
 	}

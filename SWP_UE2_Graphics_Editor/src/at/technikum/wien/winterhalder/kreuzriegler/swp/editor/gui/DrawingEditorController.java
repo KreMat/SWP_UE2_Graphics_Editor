@@ -3,6 +3,8 @@
  */
 package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,6 +33,8 @@ public class DrawingEditorController {
 
 	private double selectedThickness = 2d;
 
+	private boolean selectedFilled = true;
+
 	private ITool selectedTool;
 
 	private ToolRepository toolRepository;
@@ -39,6 +43,9 @@ public class DrawingEditorController {
 
 	@FXML
 	private ToggleButton square;
+
+	@FXML
+	private ToggleButton filled;
 
 	@FXML
 	private Canvas canvas;
@@ -59,10 +66,7 @@ public class DrawingEditorController {
 	private ToggleButton circle;
 
 	@FXML
-	private ToggleButton pen1;
-
-	@FXML
-	private ToggleButton pen2;
+	private ToggleButton pen;
 
 	@FXML
 	private ToggleButton triangle;
@@ -93,10 +97,39 @@ public class DrawingEditorController {
 
 		registerCanvasMouseListener();
 		registerColorPicker();
+		registerSlider();
 		registerToggleButtonEvents();
 		registerToggleButtons();
 
+		registerFilledToggleButton();
+
 		toggleButtonMediator.toggle(select);
+	}
+
+	private void registerFilledToggleButton() {
+		filled.setSelected(selectedFilled);
+		filled.addEventHandler(MouseEvent.MOUSE_CLICKED,
+				new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent e) {
+						selectedFilled = !selectedFilled;
+					}
+				});
+
+	}
+
+	private void registerSlider() {
+		thickness.setMin(0.1d);
+		thickness.setMax(20d);
+		thickness.setValue(selectedThickness);
+
+		thickness.valueProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov,
+					Number old_val, Number new_val) {
+				selectedThickness = new_val.doubleValue();
+			}
+		});
+
 	}
 
 	private void registerToggleButtons() {
@@ -105,8 +138,7 @@ public class DrawingEditorController {
 		toggleButtonMediator.registerButton(elipse);
 		toggleButtonMediator.registerButton(square);
 		toggleButtonMediator.registerButton(triangle);
-		toggleButtonMediator.registerButton(pen1);
-		toggleButtonMediator.registerButton(pen2);
+		toggleButtonMediator.registerButton(pen);
 		toggleButtonMediator.registerButton(move);
 		toggleButtonMediator.registerButton(scale);
 		toggleButtonMediator.registerButton(select);
@@ -117,6 +149,41 @@ public class DrawingEditorController {
 			@Override
 			public void handle(ActionEvent t) {
 				selectedTool = toolRepository.getRectangleTool();
+			}
+		});
+
+		square.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				selectedTool = toolRepository.getSquareTool();
+			}
+		});
+
+		elipse.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				selectedTool = toolRepository.getEllipseTool();
+			}
+		});
+
+		circle.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				selectedTool = toolRepository.getCircleTool();
+			}
+		});
+
+		triangle.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				selectedTool = toolRepository.getTriangleTool();
+			}
+		});
+
+		pen.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent t) {
+				selectedTool = toolRepository.getLineTool();
 			}
 		});
 
@@ -177,8 +244,8 @@ public class DrawingEditorController {
 					@Override
 					public void handle(MouseEvent e) {
 						selectedTool.handleMouseDown(new ToolEvent(
-								selectedColor, selectedThickness,
-								e.getSceneX(), e.getSceneY()));
+								selectedFilled, selectedColor,
+								selectedThickness, e.getSceneX(), e.getSceneY()));
 					}
 				});
 
@@ -187,8 +254,8 @@ public class DrawingEditorController {
 					@Override
 					public void handle(MouseEvent e) {
 						selectedTool.handleMouseMove(new ToolEvent(
-								selectedColor, selectedThickness,
-								e.getSceneX(), e.getSceneY()));
+								selectedFilled, selectedColor,
+								selectedThickness, e.getSceneX(), e.getSceneY()));
 					}
 				});
 
@@ -196,7 +263,8 @@ public class DrawingEditorController {
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent e) {
-						selectedTool.handleMouseUp(new ToolEvent(selectedColor,
+						selectedTool.handleMouseUp(new ToolEvent(
+								selectedFilled, selectedColor,
 								selectedThickness, e.getSceneX(), e.getSceneY()));
 					}
 				});

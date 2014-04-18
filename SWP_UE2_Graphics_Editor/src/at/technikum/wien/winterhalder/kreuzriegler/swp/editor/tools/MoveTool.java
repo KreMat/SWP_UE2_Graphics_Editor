@@ -4,7 +4,7 @@
 package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.tools;
 
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.DrawingEditorContext;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IGraphicalElement;
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.AbstractGraphicalElement;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.ITool;
 
 /**
@@ -48,7 +48,7 @@ public class MoveTool implements ITool {
 	@Override
 	public void handleMouseMove(ToolEvent e) {
 		if (mouseDown) {
-			for (IGraphicalElement elem : ctxt.getSelectedElements()) {
+			for (AbstractGraphicalElement elem : ctxt.getSelectedElements()) {
 				elem.move(e.getMouseEvent().getX() - startX, e.getMouseEvent()
 						.getY() - startY);
 			}

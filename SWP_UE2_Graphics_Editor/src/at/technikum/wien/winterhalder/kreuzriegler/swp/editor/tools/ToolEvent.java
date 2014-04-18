@@ -13,10 +13,12 @@ public class ToolEvent {
 
 	private RGBColor selectedColor;
 	private double selectedThickness;
+	private boolean selectedFilled;
 	private MouseEvent mouseEvent;
 
-	public ToolEvent(RGBColor selectedColor, double selectedThickness,
-			double sceneX, double sceneY) {
+	public ToolEvent(boolean filled, RGBColor selectedColor,
+			double selectedThickness, double sceneX, double sceneY) {
+		this.selectedFilled = filled;
 		this.selectedColor = selectedColor;
 		this.selectedThickness = selectedThickness;
 		mouseEvent = new MouseEvent(sceneX, sceneY);
@@ -65,6 +67,21 @@ public class ToolEvent {
 	 */
 	public void setSelectedThickness(double selectedThickness) {
 		this.selectedThickness = selectedThickness;
+	}
+
+	/**
+	 * @return the selectedFilled
+	 */
+	public boolean isSelectedFilled() {
+		return selectedFilled;
+	}
+
+	/**
+	 * @param selectedFilled
+	 *            the selectedFilled to set
+	 */
+	public void setSelectedFilled(boolean selectedFilled) {
+		this.selectedFilled = selectedFilled;
 	}
 
 }
