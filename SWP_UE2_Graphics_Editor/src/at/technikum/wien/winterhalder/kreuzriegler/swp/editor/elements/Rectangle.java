@@ -3,7 +3,7 @@
  */
 package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements;
 
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.enums.Color;
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.RGBColor;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.Colored;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.HasThickness;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IGraphicalElement;
@@ -19,8 +19,9 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 	private double y;
 	private double width;
 	private double height;
-	private Color color;
+	private RGBColor color;
 	private double thickness;
+	private boolean filled = false;;
 
 	@Override
 	public boolean isWithinSelection(double x, double y, double width,
@@ -54,7 +55,11 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 	 */
 	@Override
 	public void draw(IRenderer r) {
-		r.drawRectangle(x, y, width, height, thickness, color);
+		if (filled) {
+			r.drawFilledRectangle(x, y, width, height, thickness, color);
+		} else {
+			r.drawRectangle(x, y, width, height, thickness, color);
+		}
 	}
 
 	/*
@@ -87,6 +92,16 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 		y *= sY;
 		width *= sX;
 		height *= sY;
+	}
+
+	@Override
+	public void drawBounds(IRenderer r) {
+		r.drawBounds(x, y, width, height);
+	}
+
+	@Override
+	public Bounds getBounds() {
+		return new Bounds(x, y, width, height);
 	}
 
 	/**
@@ -153,7 +168,7 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 	 * @return the color
 	 */
 	@Override
-	public Color getColor() {
+	public RGBColor getColor() {
 		return color;
 	}
 
@@ -162,7 +177,7 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 	 *            the color to set
 	 */
 	@Override
-	public void setColor(Color color) {
+	public void setColor(RGBColor color) {
 		this.color = color;
 	}
 
@@ -186,6 +201,21 @@ public class Rectangle implements IGraphicalElement, Colored, HasThickness {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
+	}
+
+	/**
+	 * @return the filled
+	 */
+	public boolean isFilled() {
+		return filled;
+	}
+
+	/**
+	 * @param filled
+	 *            the filled to set
+	 */
+	public void setFilled(boolean filled) {
+		this.filled = filled;
 	}
 
 }

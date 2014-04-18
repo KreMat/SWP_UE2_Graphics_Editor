@@ -4,6 +4,7 @@
 package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.tools;
 
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.DrawingEditorContext;
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.RGBColor;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.Rectangle;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.DrawablePrototypeFactory;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.ITool;
@@ -12,14 +13,16 @@ import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.ITool;
  * @author Matthias
  * 
  */
-public class DrawRectangleTool implements ITool {
+public class SelectionTool implements ITool {
 
+	private static final double SELECTION_THICKNESS = 0.3d;
+	private static final RGBColor SELECTION_COLOR = new RGBColor(0, 0, 0);
 	private DrawingEditorContext ctxt;
 	private DrawablePrototypeFactory factory;
 	private boolean mouseDown = false;
 	private Rectangle rectangle;
 
-	public DrawRectangleTool(DrawingEditorContext ctxt,
+	public SelectionTool(DrawingEditorContext ctxt,
 			DrawablePrototypeFactory factory) {
 		this.ctxt = ctxt;
 		this.factory = factory;
@@ -37,8 +40,8 @@ public class DrawRectangleTool implements ITool {
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
 		rectangle = factory.createRectangle(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY(), 1, 1, e.getSelectedColor(), e
-				.getSelectedThickness(), true);
+				.getMouseEvent().getY(), 1, 1, SELECTION_COLOR,
+				SELECTION_THICKNESS, false);
 		ctxt.getElements().add(rectangle);
 	}
 
@@ -72,6 +75,11 @@ public class DrawRectangleTool implements ITool {
 	@Override
 	public void handleMouseUp(ToolEvent e) {
 		mouseDown = false;
+		ctxt.selectElement(rectangle.getX(), rectangle.getY(),
+				rectangle.getWidth(), rectangle.getHeight());
+		ctxt.getElements().remove(rectangle);
+		ctxt.getSelectedElements().remove(rectangle);
+		ctxt.stateChanged();
 	}
 
 	/*
@@ -84,6 +92,8 @@ public class DrawRectangleTool implements ITool {
 	 */
 	@Override
 	public void handleMouseClick(ToolEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -96,6 +106,8 @@ public class DrawRectangleTool implements ITool {
 	 */
 	@Override
 	public void handleMouseDoubleClick(ToolEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

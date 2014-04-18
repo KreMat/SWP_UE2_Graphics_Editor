@@ -6,8 +6,8 @@ package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.RGBColor;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.Rectangle;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.enums.Color;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.DrawablePrototypeFactory;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IGraphicalElement;
 
@@ -33,7 +33,7 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	 */
 	@Override
 	public Rectangle createRectangle(double x, double y, double width,
-			double height, Color color, double lineThickness) {
+			double height, RGBColor color, double lineThickness, boolean filled) {
 		Rectangle rectangle;
 		try {
 			rectangle = (Rectangle) prototypes.get(Rectangle.class).clone();
@@ -46,6 +46,7 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 		rectangle.setHeight(height);
 		rectangle.setColor(color);
 		rectangle.setThickness(lineThickness);
+		rectangle.setFilled(filled);
 		return rectangle;
 	}
 

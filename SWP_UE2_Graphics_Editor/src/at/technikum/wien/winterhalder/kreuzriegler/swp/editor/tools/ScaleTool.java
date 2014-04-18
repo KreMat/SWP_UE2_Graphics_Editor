@@ -4,25 +4,22 @@
 package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.tools;
 
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.DrawingEditorContext;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.Rectangle;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.DrawablePrototypeFactory;
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IGraphicalElement;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.ITool;
 
 /**
  * @author Matthias
  * 
  */
-public class DrawRectangleTool implements ITool {
+public class ScaleTool implements ITool {
 
 	private DrawingEditorContext ctxt;
-	private DrawablePrototypeFactory factory;
 	private boolean mouseDown = false;
-	private Rectangle rectangle;
+	private double startX;
+	private double startY;
 
-	public DrawRectangleTool(DrawingEditorContext ctxt,
-			DrawablePrototypeFactory factory) {
+	public ScaleTool(DrawingEditorContext ctxt) {
 		this.ctxt = ctxt;
-		this.factory = factory;
 	}
 
 	/*
@@ -36,10 +33,8 @@ public class DrawRectangleTool implements ITool {
 	@Override
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
-		rectangle = factory.createRectangle(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY(), 1, 1, e.getSelectedColor(), e
-				.getSelectedThickness(), true);
-		ctxt.getElements().add(rectangle);
+		startX = e.getMouseEvent().getX();
+		startY = e.getMouseEvent().getY();
 	}
 
 	/*
@@ -53,11 +48,13 @@ public class DrawRectangleTool implements ITool {
 	@Override
 	public void handleMouseMove(ToolEvent e) {
 		if (mouseDown) {
-			double width = e.getMouseEvent().getX() - rectangle.getX();
-			double height = e.getMouseEvent().getY() - rectangle.getY();
-			rectangle.setWidth(width);
-			rectangle.setHeight(height);
+			for (IGraphicalElement elem : ctxt.getSelectedElements()) {
+				elem.resize(startX, startY, e.getMouseEvent().getX(), e
+						.getMouseEvent().getY());
+			}
 			ctxt.stateChanged();
+			startX = e.getMouseEvent().getX();
+			startY = e.getMouseEvent().getY();
 		}
 	}
 
@@ -84,6 +81,8 @@ public class DrawRectangleTool implements ITool {
 	 */
 	@Override
 	public void handleMouseClick(ToolEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	/*
@@ -96,6 +95,8 @@ public class DrawRectangleTool implements ITool {
 	 */
 	@Override
 	public void handleMouseDoubleClick(ToolEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -12,6 +12,11 @@ public class MouseEvent {
 	private double x;
 	private double y;
 
+	public MouseEvent(double x, double y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	/**
 	 * @return the x
 	 */

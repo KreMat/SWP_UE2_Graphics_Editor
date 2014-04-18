@@ -43,6 +43,36 @@ public class GroupComposite implements IGraphicalElement {
 	}
 
 	@Override
+	public void drawBounds(IRenderer r) {
+		Bounds b = getBounds();
+		r.drawBounds(b.getX(), b.getY(), b.getWidth(), b.getHeight());
+	}
+
+	@Override
+	public Bounds getBounds() {
+		double x = 0d;
+		double tempX = 0d;
+		double y = 0d;
+		double tempY = 0d;
+		for (IGraphicalElement elem : elements) {
+			Bounds bounds = elem.getBounds();
+			if (x == 0 || x > bounds.getX()) {
+				x = bounds.getX();
+			}
+			if (y == 0 || y > bounds.getY()) {
+				y = bounds.getY();
+			}
+			if (tempX == 0 || tempX < bounds.getWidth() + bounds.getX()) {
+				tempX = bounds.getWidth() + bounds.getX();
+			}
+			if (tempY == 0 || tempY < bounds.getHeight() + bounds.getY()) {
+				tempY = bounds.getHeight() + bounds.getY();
+			}
+		}
+		return new Bounds(x, y, tempX - x, tempY - y);
+	}
+
+	@Override
 	public void resize(double fromX, double fromY, double toX, double toY) {
 		for (IGraphicalElement element : elements) {
 			element.resize(fromX, fromY, toX, toY);

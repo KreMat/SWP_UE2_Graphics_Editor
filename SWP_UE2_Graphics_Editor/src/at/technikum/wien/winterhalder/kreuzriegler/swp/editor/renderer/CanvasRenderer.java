@@ -6,9 +6,9 @@ package at.technikum.wien.winterhalder.kreuzriegler.swp.editor.renderer;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.RGBColor;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.Point;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.enums.Color;
-import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.helper.ColorMapper;
 import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IRenderer;
 
 /**
@@ -17,12 +17,11 @@ import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.IRender
  */
 public class CanvasRenderer implements IRenderer {
 
+	private static final int CORNER_SIZE = 6;
 	private GraphicsContext gc;
-	private ColorMapper colorMapper;
 
 	public CanvasRenderer(GraphicsContext gc) {
 		this.gc = gc;
-		colorMapper = new ColorMapper();
 	}
 
 	/*
@@ -35,10 +34,33 @@ public class CanvasRenderer implements IRenderer {
 	 */
 	@Override
 	public void drawRectangle(double x, double y, double w, double h,
-			double lineThickness, Color c) {
-		gc.setFill(colorMapper.mapColorToJavaFxColor(c));
+			double lineThickness, RGBColor c) {
+		gc.setStroke(Color.color(c.getR(), c.getG(), c.getB()));
+		gc.setLineWidth(lineThickness);
+		gc.strokeRect(x, y, w, h);
+	}
+
+	@Override
+	public void drawFilledRectangle(double x, double y, double w, double h,
+			double lineThickness, RGBColor c) {
+		gc.setFill(Color.color(c.getR(), c.getG(), c.getB()));
 		gc.setLineWidth(lineThickness);
 		gc.fillRect(x, y, w, h);
+	}
+
+	@Override
+	public void drawBounds(double x, double y, double w, double h) {
+		drawRectangle(x, y, w, h, 2.0d, new RGBColor(0.1d, 0.5d, 0.6d));
+
+		gc.setFill(Color.color(0.1d, 0.5d, 0.6d));
+		gc.fillRect(x - CORNER_SIZE / 2, y - CORNER_SIZE / 2, CORNER_SIZE,
+				CORNER_SIZE);
+		gc.fillRect(x + w - CORNER_SIZE / 2, y - CORNER_SIZE / 2, CORNER_SIZE,
+				CORNER_SIZE);
+		gc.fillRect(x - CORNER_SIZE / 2, y + h - CORNER_SIZE / 2, CORNER_SIZE,
+				CORNER_SIZE);
+		gc.fillRect(x + w - CORNER_SIZE / 2, y + h - CORNER_SIZE / 2,
+				CORNER_SIZE, CORNER_SIZE);
 	}
 
 	/*
@@ -51,7 +73,7 @@ public class CanvasRenderer implements IRenderer {
 	 */
 	@Override
 	public void drawCircle(double x, double y, double radius,
-			double lineThickness, Color c) {
+			double lineThickness, RGBColor c) {
 		// TODO Auto-generated method stub
 
 	}
@@ -66,7 +88,7 @@ public class CanvasRenderer implements IRenderer {
 	 */
 	@Override
 	public void drawElipse(double x, double y, double radiusX, double radiusY,
-			double lineThickness, Color c) {
+			double lineThickness, RGBColor c) {
 		// TODO Auto-generated method stub
 
 	}
@@ -86,7 +108,7 @@ public class CanvasRenderer implements IRenderer {
 	 */
 	@Override
 	public void drawTriangle(Point p1, Point p2, Point p3,
-			double lineThickness, Color c) {
+			double lineThickness, RGBColor c) {
 		// TODO Auto-generated method stub
 
 	}
@@ -100,7 +122,28 @@ public class CanvasRenderer implements IRenderer {
 	 * at.technikum.wien.winterhalder.kreuzriegler.swp.editor.enums.Color)
 	 */
 	@Override
-	public void drawLine(List<Point> points, double lineThickness, Color c) {
+	public void drawLine(List<Point> points, double lineThickness, RGBColor c) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawFilledCircle(double x, double y, double radius,
+			double lineThickness, RGBColor c) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawFilledElipse(double x, double y, double radiusX,
+			double radiusY, double lineThickness, RGBColor c) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void drawFilledTriangle(Point p1, Point p2, Point p3,
+			double lineThickness, RGBColor c) {
 		// TODO Auto-generated method stub
 
 	}

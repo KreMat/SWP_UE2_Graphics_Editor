@@ -27,6 +27,9 @@ public class DrawingEditorContext {
 			r.reset();
 			for (IGraphicalElement elem : elements) {
 				elem.draw(r);
+				if (selectedElements.contains(elem)) {
+					elem.drawBounds(r);
+				}
 			}
 		}
 	}
@@ -103,6 +106,21 @@ public class DrawingEditorContext {
 	 */
 	public void setRenderer(List<IRenderer> renderer) {
 		this.renderer = renderer;
+	}
+
+	/**
+	 * @return the selectedElements
+	 */
+	public List<IGraphicalElement> getSelectedElements() {
+		return selectedElements;
+	}
+
+	/**
+	 * @param selectedElements
+	 *            the selectedElements to set
+	 */
+	public void setSelectedElements(List<IGraphicalElement> selectedElements) {
+		this.selectedElements = selectedElements;
 	}
 
 }
