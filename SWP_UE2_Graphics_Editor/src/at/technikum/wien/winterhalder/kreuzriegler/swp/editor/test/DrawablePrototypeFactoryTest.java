@@ -29,28 +29,25 @@ public class DrawablePrototypeFactoryTest extends Assert {
 
 	@Test
 	public void testCreateRectangle() {
-		RGBColor color = new RGBColor(1, 2, 3);
-		Rectangle rectangle = drawablePrototypeFactory.createRectangle(1, 2, 3,
-				4, color, 5, true);
-		assertEquals(color, rectangle.getColor());
+		Rectangle rectangle = drawablePrototypeFactory.createRectangle(1, 2);
 		assertEquals(1.0, rectangle.getX());
 		assertEquals(2.0, rectangle.getY());
-		assertEquals(3.0, rectangle.getWidth());
-		assertEquals(4.0, rectangle.getHeight());
-		assertEquals(5.0, rectangle.getThickness());
-		assertTrue(rectangle.isFilled());
+		assertEquals(1.0, rectangle.getWidth());
+		assertEquals(1.0, rectangle.getHeight());
+		assertEquals(0.3, rectangle.getThickness());
+		assertFalse(rectangle.isFilled());
 	}
 
 	@Test
 	public void testCreateSquare() {
 		RGBColor color = new RGBColor(1, 2, 3);
-		Square square = drawablePrototypeFactory.createSquare(1, 2, 3, color,
-				4, false);
+		Square square = drawablePrototypeFactory.createSquare(1, 2, color, 4,
+				false);
 		assertEquals(color, square.getColor());
 		assertEquals(1.0, square.getX());
 		assertEquals(2.0, square.getY());
-		assertEquals(3.0, square.getWidth());
-		assertEquals(3.0, square.getHeight());
+		assertEquals(1.0, square.getWidth());
+		assertEquals(1.0, square.getHeight());
 		assertEquals(4.0, square.getThickness());
 		assertFalse(square.isFilled());
 	}

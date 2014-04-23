@@ -37,7 +37,7 @@ public class DrawSquareTool implements ITool {
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
 		square = factory.createSquare(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY(), 1, e.getSelectedColor(), e
+				.getMouseEvent().getY(), e.getSelectedColor(), e
 				.getSelectedThickness(), e.isSelectedFilled());
 		ctxt.getElements().add(square);
 	}

@@ -37,8 +37,10 @@ public class DrawRectangleTool implements ITool {
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
 		rectangle = factory.createRectangle(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY(), 1, 1, e.getSelectedColor(), e
-				.getSelectedThickness(), e.isSelectedFilled());
+				.getMouseEvent().getY());
+		rectangle.setColor(e.getSelectedColor());
+		rectangle.setThickness(e.getSelectedThickness());
+		rectangle.setFilled(e.isSelectedFilled());
 		ctxt.getElements().add(rectangle);
 	}
 

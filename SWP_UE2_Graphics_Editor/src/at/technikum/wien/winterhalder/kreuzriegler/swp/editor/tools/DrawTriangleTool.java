@@ -38,8 +38,6 @@ public class DrawTriangleTool implements ITool {
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
 		triangle = factory.createTriangle(new Point(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY()), new Point(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY()), new Point(e.getMouseEvent().getX(), e
 				.getMouseEvent().getY()), e.getSelectedColor(), e
 				.getSelectedThickness(), e.isSelectedFilled());
 		ctxt.getElements().add(triangle);

@@ -23,15 +23,42 @@ import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.interfaces.Drawabl
  */
 public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 
+	private static final double SELECTION_THICKNESS = 0.3d;
+	private static final RGBColor SELECTION_COLOR = new RGBColor(0, 0, 0);
+
 	private Map<Class<?>, AbstractGraphicalElement> prototypes = new HashMap<Class<?>, AbstractGraphicalElement>();
 
 	public DrawablePrototypeFactoryImpl() {
-		prototypes.put(Rectangle.class, new Rectangle());
-		prototypes.put(Square.class, new Square());
+		Rectangle rect = new Rectangle();
+		rect.setFilled(false);
+		rect.setColor(SELECTION_COLOR);
+		rect.setHeight(1);
+		rect.setWidth(1);
+		rect.setThickness(SELECTION_THICKNESS);
+		prototypes.put(Rectangle.class, rect);
+
+		Square square = new Square();
+		square.setWidth(1);
+		square.setHeight(1);
+		prototypes.put(Square.class, square);
+
 		prototypes.put(Line.class, new Line());
-		prototypes.put(Ellipse.class, new Ellipse());
-		prototypes.put(Circle.class, new Circle());
-		prototypes.put(Triangle.class, new Triangle());
+
+		Ellipse ell = new Ellipse();
+		ell.setHeight(1);
+		ell.setWidth(1);
+		prototypes.put(Ellipse.class, ell);
+
+		Circle c = new Circle();
+		c.setHeight(1);
+		c.setWidth(1);
+		prototypes.put(Circle.class, c);
+
+		Triangle t = new Triangle();
+		t.setP1(new Point(0, 0));
+		t.setP2(new Point(1, 1));
+		t.setP3(new Point(1, 1));
+		prototypes.put(Triangle.class, t);
 	}
 
 	/*
@@ -43,8 +70,7 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	 * double)
 	 */
 	@Override
-	public Rectangle createRectangle(double x, double y, double width,
-			double height, RGBColor color, double lineThickness, boolean filled) {
+	public Rectangle createRectangle(double x, double y) {
 		Rectangle rectangle;
 		try {
 			rectangle = (Rectangle) prototypes.get(Rectangle.class).clone();
@@ -53,11 +79,6 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 		}
 		rectangle.setX(x);
 		rectangle.setY(y);
-		rectangle.setWidth(width);
-		rectangle.setHeight(height);
-		rectangle.setColor(color);
-		rectangle.setThickness(lineThickness);
-		rectangle.setFilled(filled);
 		return rectangle;
 	}
 
@@ -76,8 +97,8 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	}
 
 	@Override
-	public Square createSquare(double x, double y, double length,
-			RGBColor color, double lineThickness, boolean filled) {
+	public Square createSquare(double x, double y, RGBColor color,
+			double lineThickness, boolean filled) {
 		Square square;
 		try {
 			square = (Square) prototypes.get(Square.class).clone();
@@ -86,8 +107,6 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 		}
 		square.setX(x);
 		square.setY(y);
-		square.setWidth(length);
-		square.setHeight(length);
 		square.setColor(color);
 		square.setThickness(lineThickness);
 		square.setFilled(filled);
@@ -95,8 +114,8 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	}
 
 	@Override
-	public Ellipse createEllipse(double x, double y, double width,
-			double height, RGBColor color, double lineThickness, boolean filled) {
+	public Ellipse createEllipse(double x, double y, RGBColor color,
+			double lineThickness, boolean filled) {
 		Ellipse ellipse;
 		try {
 			ellipse = (Ellipse) prototypes.get(Ellipse.class).clone();
@@ -105,8 +124,6 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 		}
 		ellipse.setX(x);
 		ellipse.setY(y);
-		ellipse.setWidth(width);
-		ellipse.setHeight(height);
 		ellipse.setColor(color);
 		ellipse.setThickness(lineThickness);
 		ellipse.setFilled(filled);
@@ -114,8 +131,8 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	}
 
 	@Override
-	public Circle createCircle(double x, double y, double radius,
-			RGBColor color, double lineThickness, boolean filled) {
+	public Circle createCircle(double x, double y, RGBColor color,
+			double lineThickness, boolean filled) {
 		Circle circle;
 		try {
 			circle = (Circle) prototypes.get(Circle.class).clone();
@@ -124,8 +141,6 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 		}
 		circle.setX(x);
 		circle.setY(y);
-		circle.setWidth(radius);
-		circle.setHeight(radius);
 		circle.setColor(color);
 		circle.setThickness(lineThickness);
 		circle.setFilled(filled);
@@ -133,8 +148,8 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 	}
 
 	@Override
-	public Triangle createTriangle(Point p1, Point p2, Point p3,
-			RGBColor color, double lineThickness, boolean filled) {
+	public Triangle createTriangle(Point p1, RGBColor color,
+			double lineThickness, boolean filled) {
 		Triangle triangle;
 		try {
 			triangle = (Triangle) prototypes.get(Triangle.class).clone();
@@ -142,8 +157,6 @@ public class DrawablePrototypeFactoryImpl implements DrawablePrototypeFactory {
 			throw new IllegalStateException(e);
 		}
 		triangle.setP1(p1);
-		triangle.setP2(p2);
-		triangle.setP3(p3);
 		triangle.setColor(color);
 		triangle.setThickness(lineThickness);
 		triangle.setFilled(filled);

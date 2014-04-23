@@ -37,7 +37,7 @@ public class DrawEllipseTool implements ITool {
 	public void handleMouseDown(ToolEvent e) {
 		mouseDown = true;
 		ellipse = factory.createEllipse(e.getMouseEvent().getX(), e
-				.getMouseEvent().getY(), 1, 1, e.getSelectedColor(), e
+				.getMouseEvent().getY(), e.getSelectedColor(), e
 				.getSelectedThickness(), e.isSelectedFilled());
 		ctxt.getElements().add(ellipse);
 	}

@@ -18,21 +18,20 @@ import at.technikum.wien.winterhalder.kreuzriegler.swp.editor.elements.Triangle;
  */
 public interface DrawablePrototypeFactory {
 
-	public Rectangle createRectangle(double x, double y, double width,
-			double height, RGBColor color, double lineThickness, boolean filled);
+	public Rectangle createRectangle(double x, double y);
 
-	public Square createSquare(double x, double y, double length,
-			RGBColor color, double lineThickness, boolean filled);
+	public Square createSquare(double x, double y, RGBColor color,
+			double lineThickness, boolean filled);
 
 	public Line createLine(double x, double y, RGBColor color, double thickness);
 
-	public Ellipse createEllipse(double x, double y, double width,
-			double height, RGBColor color, double lineThickness, boolean filled);
+	public Ellipse createEllipse(double x, double y, RGBColor color,
+			double lineThickness, boolean filled);
 
-	public Circle createCircle(double x, double y, double radius,
-			RGBColor color, double lineThickness, boolean filled);
+	public Circle createCircle(double x, double y, RGBColor color,
+			double lineThickness, boolean filled);
 
-	public Triangle createTriangle(Point p1, Point p2, Point p3,
-			RGBColor color, double lineThickness, boolean filled);
+	public Triangle createTriangle(Point p1, RGBColor color,
+			double lineThickness, boolean filled);
 
 }
